@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="test">
+
+	<select id="selectUserAll" resultType="java.util.HashMap">
+		select * from cs_usermaster
+	</select>
+	
+	<select id="selectUsers" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select * from cs_usermaster where user_id = #{userid}
+		
+	</select>
+
+
+	<insert id="insertUser" parameterType="java.util.HashMap">
+		insert into cs_usermaster(user_id,emp_no,user_name)
+		values(#{userid},#{empno},#{username})
+	</insert>
+
+	<delete id="updateUser" parameterType="java.util.HashMap">
+		update cs_usermaster
+		set
+		 USER_NAME=#{username}
+		where user_id=#{userid}
+	</delete>
+
+	<delete id="deleteUser" parameterType="java.util.HashMap">
+		delete from cs_usermaster where user_id = #{userid}
+	</delete>
+
+
+	<!-- <parameterMap id="studentParamMap" type="Student" > -->
+	<!-- <parameter property ="id" jdbcType="NUMERIC" javaType="Integer" /> -->
+	<!-- <parameter property ="name" jdbcType="VARCHAR" javaType="String" /> -->
+	<!-- <parameter property ="age" jdbcType="NUMERIC" javaType="Integer" /> -->
+	<!-- <parameter property ="grade" jdbcType="VARCHAR" javaType="String" /> -->
+	<!-- <parameter property ="daynight" jdbcType="VARCHAR" javaType="String" /> -->
+	<!-- <parameter property ="dept.deptid" jdbcType="NUMERIC" javaType="Integer" /> -->
+	<!-- <parameter property ="dept.deptname" jdbcType="VARCHAR" javaType="String" /> -->
+	<!-- </parameterMap> -->
+
+	<!--  <resultMap id="studentResultMap" type="Student">
+		<id property="id" column="stu_id" javaType="Integer" jdbcType="NUMERIC" />
+		<result property="name" column="stu_name" javaType="String"
+			jdbcType="VARCHAR" />
+		<result property="age" column="stu_age" javaType="Integer"
+			jdbcType="NUMERIC" />
+		<result property="grade" column="stu_grade" javaType="String"
+			jdbcType="VARCHAR" />
+		<result property="daynight" column="stu_daynight" javaType="String"
+			jdbcType="VARCHAR" />
+		<result property="dept.deptid" column="dept_id" javaType="Integer"
+			jdbcType="NUMERIC" />
+		<result property="dept.deptname" column="dept_name" javaType="String"
+			jdbcType="VARCHAR" />
+	</resultMap>
+
+	<insert id="insertStudent" parameterType="Student">
+		insert into student (stu_id,stu_name,stu_age,stu_grade,stu_daynight,dept_id)
+		values(
+		#{id},
+		#{name},
+		#{age},
+		#{grade},#{daynight},#{dept.deptid} )
+	</insert>
+
+	<update id="updateStudent" parameterType="Student">
+		update student set
+		stu_name = #{name},
+		stu_age = #{age},
+		stu_grade = #{grade},
+		stu_daynight
+		= #{daynight},
+		dept_id = #{dept.deptid}
+		where stu_id = #{id}
+	</update>
+
+	<select id="selectStudentDeptById" resultMap="studentResultMap">
+		select s.stu_id,
+		s.stu_name,
+		s.stu_age,
+		s.stu_grade,
+		s.stu_daynight,
+		d.dept_id,
+		d.dept_name
+		from student s, dept d
+		where s.dept_id = d.dept_id
+	</select>
+
+	<select id="selectStudentByName" parameterType="String"
+		resultMap="studentResultMap">
+		<include refid="selectStudent" />
+		where stu_name like '%' || #{value} || '%'
+	</select>
+
+	<select id="selectStudentByGradeorDay2" parameterType="Student"
+		resultMap="studentResultMap">
+		<include refid="selectStudent" />
+		<where>
+			<if test="grade != null">
+				stu_grade = #{grade}
+			</if>
+			<if test="daynight != null">
+				and stu_daynight = #{daynight}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectStudentByGradeorDay" parameterType="Map"
+		resultMap="studentResultMap">
+		<include refid="selectStudent" />
+		<where>
+			<if test="grade != null">
+				stu_grade = #{grade}
+			</if>
+			<if test="day != null">
+				or stu_daynight = #{day}
+			</if>
+		</where>
+	</select>
+
+	<sql id="selectStudent">
+		select * from student
+	</sql>
+
+
+
+	<select id="selectStudentGrade" resultType="integer">
+		select count(*) cnt
+		from STUDENT
+		group by grade
+	</select> -->
+
+</mapper>

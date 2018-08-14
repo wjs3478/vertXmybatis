@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ㅋㅋㅋ</title>
+  
+   <style>
+  .drag { width: 200px; height: 100px; padding: 0.5em; background-color: red; border-style:solid;}
+  </style>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( ".drag" ).draggable(
+	{
+		start : function()
+		{
+		
+		},
+		stop : function(event,ui)
+		{
+			testajax();
+		//console.log(event);
+		//console.log(ui);
+		//console.log(ui.draggable);
+			$("<div>",{
+			class : 'drag'
+			,text:"안녕"
+			}).appendTo("body").draggable();
+		}
+		
+		
+		
+		//,helper: "clone"
+	});
+	
+  
+  $( ".drag" ).droppable(
+	{
+		drop : function(event,ui)
+		{
+		console.log(event);
+		console.log(ui.draggable.attr("id"));
+		//console.log(ui.draggable);
+			//alert("i believe");
+		}
+		
+		//,helper: "clone"
+	});
+  
+  
+  
+  } );
+  
+  
+    function setCursor(str,str2){
+        str.style.cursor = str2;
+    }
+  
+  	function testajax(){  
+	     $.ajax({
+	         url : "http://localhost:8080/test.sql.do",
+	         type: "post",
+	         contentType: "application/json",
+	         data:JSON.stringify({
+	        	 sqlname:'test.deleteUser',
+		         sqltype:'delete',
+	        	 param:{userid:'21353',
+	        	 		username:'ㄴㅇㅇㅁ'}
+
+	         }),
+	         success : function(responseData){
+	             //$("#ajax").remove();
+	             data=responseData;
+	             console.log(data);
+	          },
+	          error:function(request,status,error)
+	         {
+	             console.log(request);
+	              console.log(status);
+	              console.log(error);
+	          }
+	     });
+  	}
+  	
+  	function testajax2(){  
+	     $.ajax({
+	         url : "http://localhost:8080/test.sql.do",
+	         type: "post",
+	         contentType: "application/json",
+	         data:{
+	        	 sqlname:'test.insertUser',
+		         sqltype:'insert',
+	        	 param:{userid:$("#userid").val()
+	        		 	,empno:$("#empno").val()
+	        		 	,username:$("#username").val()
+	        		 	}
+
+	         },
+	         success : function(responseData){
+	             //$("#ajax").remove();
+	             data=responseData;
+	             console.log(data);
+	             console.log(data.getAllResponseHeaders());
+	          },
+	          error:function(request,status,error)
+	         {
+	             console.log(request);
+	              console.log(status);
+	              console.log(error);
+	          }
+	     });
+ 	}
+  </script>
+</head>
+<body>
+ 
+<div id="draggable" class="ui-widget-content drag" onmouseover="setCursor(this,'pointer')">
+  <p>Drag me around</p>
+</div>
+ 
+<div id="draggab" class="ui-widget-content drag" onmouseover="setCursor(this,'pointer')">
+  <p>테스트2</p>
+</div> 
+
+
+<div id="dragab" class="ui-widget-content drag" onmouseover="setCursor(this,'pointer')">
+  <p>테스트3</p>
+</div> 
+<div>
+<form id="testform">
+<div>
+    <label>id</label>
+        :
+    <input type="text" name="userid" id="userid" value="" />
+    <label>사번</label>
+        :
+    <input type="text" name="empno" id="empno" value="" />
+    <label>이름</label>
+        :
+    <input type="text" name="username" id="username" value="" />
+    <div>
+       <input type="button" value="Ajax 폼 전송" onclick="testajax2()" />
+ 	</div>
+</div>
+</form>
+</div> 
+</body>
+</html>
